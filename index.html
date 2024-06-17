@@ -1,2 +1,155 @@
+<!DOCTYPE html>
+<html>
 
-  <embed src="2024-2025学年校历.pdf" type="application/pdf" width="100%" height="100%" />
+<head>
+  <title>我的博客</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+  .header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+    }
+
+  .header h1 {
+      margin: 0;
+    }
+
+  .content {
+      padding: 20px;
+    }
+
+  .content h2 {
+      margin-top: 0;
+    }
+
+  .content p {
+      line-height: 1.5;
+    }
+
+  .footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+  .footer p {
+      margin: 0;
+    }
+
+  .code-container {
+      float: right;
+      width: 50%;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+    }
+
+  .image-container {
+      float: left;
+      width: 50%;
+      padding: 10px;
+    }
+    .image-left {
+            float: left;
+            margin-right: 10px;
+        }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1>我的博客</h1>
+  </div>
+  <div class="content">
+    <h2>你逆天了</h2>
+    <p>hello!欢迎大家进入我的博客
+        <img src="9093af6c920d37be6f3beee5d2a07051.jpg" alt="max" class="image-left">
+    </p>
+    <p>余文涛</p>
+  </div>
+  <div class="footer">
+    <p> &copy; 2024 我的博客</p>
+  </div>
+  <div class="image-container">
+    <img src="e40f4a437350b6161d408816d8de2ae.png" alt="max" class="image-left">
+  </div>
+  <div class="code-container">
+    <pre>
+      <code class="python">
+        <div class="python">
+        import torch
+        import torch.nn as nn
+        import torch.optim as optim
+        from torchvision import datasets, transforms
+        
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,))
+        ])
+        
+        train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+        test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+        
+        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+        test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+
+        class CNN(nn.Module):
+            def __init__(self):
+                super(CNN, self).__init__()
+                self.conv1 = nn.Conv2d(1, 10, kernel_size=5)
+                self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
+                self.fc1 = nn.Linear(320, 50)
+                self.fc2 = nn.Linear(50, 10)
+        
+            def forward(self, x):
+                x = nn.functional.relu(nn.functional.max_pool2d(self.conv1(x), 2))
+                x = nn.functional.relu(nn.functional.max_pool2d(self.conv2(x), 2))
+                x = x.view(-1, 320)
+                x = nn.functional.relu(self.fc1(x))
+                x = self.fc2(x)
+                return nn.functional.log_softmax(x, dim=1)
+        
+        model = CNN()
+        
+        criterion = nn.CrossEntropyLoss()
+        optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
+        
+        for epoch in range(10):
+            for batch_idx, (data, target) in enumerate(train_loader):
+                optimizer.zero_grad()
+                output = model(data)
+                loss = criterion(output, target)
+                loss.backward()
+                optimizer.step()
+        
+                if batch_idx % 100 == 0:
+                    print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                        epoch, batch_idx * len(data), len(train_loader.dataset),
+                        100. * batch_idx / len(train_loader), loss.item()))
+
+        correct = 0
+        total = 0
+        with torch.no_grad():
+            for data, target in test_loader:
+                output = model(data)
+                _, predicted = torch.max(output.data, 1)
+                total += target.size(0)
+                correct += (predicted == target).sum().item()
+        
+        print('Test Accuracy: {}/{} ({:.0f}%)'.format(correct, total, 100. * correct / total))
+      </div>
+    </code>
+  </pre>
+  </div>
+  
+</body>
+
+</html>
