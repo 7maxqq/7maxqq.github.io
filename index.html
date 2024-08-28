@@ -11,7 +11,7 @@
         var pdfjsLib = window['pdfjs-dist/build/pdf'];  
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';  
         
-        var loadingTask = pdfjsLib.getDocument('/path/to/your/pdf/file.pdf');  
+        var loadingTask = pdfjsLib.getDocument('2024-2025学年校历.pdf');  
         
         loadingTask.promise.then(function(pdf) {  
             console.log('PDF loaded');  
